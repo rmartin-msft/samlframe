@@ -1,0 +1,46 @@
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<h1>You need to sign into MySP</h1>
+
+<p>
+    Click <a href="https://localhost:7260/Home/CloseMe" target="_blank" >here</a> to Sign into MySP in new window
+
+    <button onclick="SignIn()">Sign In</button>
+
+    <div id="loading" class="loading">Loading&#8230;</div>
+
+    <script>
+        function SignIn() {
+            window.open("https://localhost:7260/Home/CloseMe", "_blank");
+            window.location = "https://localhost:7260/Home/FromMCA?autoOpen=1";            
+            // window.location.href = "https://localhost:7260/Home/FromMCA?autoOpen=1";            
+            window.reload();
+        }
+        
+        window.onload = function () {
+
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            // Get the value of "some_key" in a URL like "https://example.com/?some_key=some_value"
+            let value = params.autoOpen; // "some_value"
+
+            console.log(value);
+
+            if (value === "1") {                
+
+                setTimeout(function() {
+                     console.log("Refreshing page in 5 seconds");
+                     window.location="https://localhost:7260/Home/FromMCA?autoOpen=1";
+                     window.location.reload();
+                     },5000
+                );
+
+            }            
+            else{
+                document.getElementById("loading").style.display = "none";
+            }
+        }
+    </script>
+</p>
